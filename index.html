@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Painel UNIFAHE</title>
 
@@ -12,7 +14,7 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, Helvetica, sans-serif;
+font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
@@ -31,7 +33,7 @@ padding:20px;
 }
 
 .logo{
-font-size:28px;
+font-size:30px;
 font-weight:bold;
 color:#f7941d;
 margin-bottom:40px;
@@ -43,16 +45,17 @@ color:white;
 
 .menu a{
 display:block;
-color:#cfd6df;
+color:#ddd;
 text-decoration:none;
 padding:15px;
-margin-bottom:10px;
+margin-bottom:8px;
 border-radius:8px;
+transition:.3s;
 }
 
 .menu a:hover{
 background:#f7941d;
-color:white;
+color:#fff;
 }
 
 .main{
@@ -60,22 +63,17 @@ margin-left:250px;
 padding:30px;
 }
 
-.topo{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-}
-
 .titulo{
-font-size:32px;
+font-size:36px;
 font-weight:bold;
+margin-bottom:30px;
 }
 
 .cards{
 display:grid;
 grid-template-columns:repeat(4,1fr);
 gap:20px;
+margin-bottom:30px;
 }
 
 .card{
@@ -84,11 +82,37 @@ padding:25px;
 border-radius:15px;
 }
 
+.card h3{
+margin-bottom:15px;
+}
+
 .numero{
 font-size:42px;
 font-weight:bold;
 color:#f7941d;
-margin-top:15px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:#0d213d;
+border-radius:15px;
+overflow:hidden;
+}
+
+th{
+background:#f7941d;
+padding:15px;
+text-align:left;
+}
+
+td{
+padding:12px;
+border-bottom:1px solid #20344d;
+}
+
+tbody tr:hover{
+background:#122949;
 }
 
 </style>
@@ -106,15 +130,10 @@ margin-top:15px;
 <div class="menu">
 
 <a href="#">🏠 Dashboard</a>
-
 <a href="#">📦 Lotes</a>
-
 <a href="#">⚠ Pendências</a>
-
 <a href="#">📚 Cursos</a>
-
 <a href="#">📄 Relatórios</a>
-
 <a href="#">⚙ Configurações</a>
 
 </div>
@@ -123,39 +142,129 @@ margin-top:15px;
 
 <div class="main">
 
-<div class="topo">
-
 <div class="titulo">
 Painel de Matrículas
-</div>
-
 </div>
 
 <div class="cards">
 
 <div class="card">
-<h3>Matriculados</h3>
-<div class="numero">0</div>
-</div>
-
-<div class="card">
-<h3>Faltam</h3>
-<div class="numero">0</div>
-</div>
-
-<div class="card">
-<h3>Hoje</h3>
-<div class="numero">0</div>
+<h3>Total</h3>
+<div id="total" class="numero">0</div>
 </div>
 
 <div class="card">
 <h3>Pendências</h3>
-<div class="numero">0</div>
+<div id="pendencias" class="numero">0</div>
+</div>
+
+<div class="card">
+<h3>Cursos</h3>
+<div id="cursos" class="numero">0</div>
+</div>
+
+<div class="card">
+<h3>Última Atualização</h3>
+<div id="hora" style="font-size:18px;color:#f7941d;">--:--</div>
 </div>
 
 </div>
 
+<h2 style="margin-bottom:15px;">Últimos registros</h2>
+
+<table>
+
+<thead>
+
+<tr>
+<th>RA</th>
+<th>Nome</th>
+<th>Curso</th>
+<th>Situação</th>
+</tr>
+
+</thead>
+
+<tbody id="tabela">
+
+</tbody>
+
+</table>
+
 </div>
+
+<script>
+
+const URL_API="https://script.google.com/macros/s/AKfycbz-1KDlUZq7YNJ6RURApSnJIWBd9N2wmv9qvIzGTrFNUd4A4HIZnvQh7M-Ba4aSr6PIyQ/exec";
+
+async function carregar(){
+
+try{
+
+const resposta=await fetch(URL_API);
+
+const dados=await resposta.json();
+
+document.getElementById("total").innerHTML=dados.length;
+
+let pendencias=0;
+
+let cursos=new Set();
+
+let tabela="";
+
+dados.slice(0,20).forEach(aluno=>{
+
+if(aluno["SITUAÇÃO"]!=""){
+pendencias++;
+}
+
+cursos.add(aluno["CURSO"]);
+
+tabela+=`
+
+<tr>
+
+<td>${aluno["RA"]}</td>
+
+<td>${aluno["NOME"]}</td>
+
+<td>${aluno["CURSO"]}</td>
+
+<td>${aluno["SITUAÇÃO"]}</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("pendencias").innerHTML=pendencias;
+
+document.getElementById("cursos").innerHTML=cursos.size;
+
+document.getElementById("tabela").innerHTML=tabela;
+
+let agora=new Date();
+
+document.getElementById("hora").innerHTML=agora.toLocaleTimeString();
+
+}
+
+catch(erro){
+
+console.log(erro);
+
+}
+
+}
+
+carregar();
+
+setInterval(carregar,30000);
+
+</script>
 
 </body>
+
 </html>
