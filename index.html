@@ -1,15 +1,167 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Painel UNIFAHE</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+background:#f4f6f9;
+}
+
+header{
+background:#0d47a1;
+color:#fff;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+box-shadow:0 3px 10px rgba(0,0,0,.2);
+}
+
+.container{
+width:95%;
+max-width:1300px;
+margin:30px auto;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.card{
+background:#fff;
+border-radius:12px;
+padding:25px;
+box-shadow:0 4px 12px rgba(0,0,0,.1);
+text-align:center;
+}
+
+.card h2{
+font-size:18px;
+color:#666;
+margin-bottom:15px;
+}
+
+.numero{
+font-size:42px;
+font-weight:bold;
+color:#0d47a1;
+}
+
+.tabela{
+background:#fff;
+padding:20px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#0d47a1;
+color:white;
+padding:12px;
+}
+
+td{
+padding:12px;
+border-bottom:1px solid #ddd;
+text-align:center;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<h1>Painel UNIFAHE</h1>
+<header>
 
-<p>Se você está vendo esta página, o GitHub Pages está funcionando.</p>
+PAINEL UNIFAHE
+
+</header>
+
+<div class="container">
+
+<div class="cards">
+
+<div class="card">
+<h2>Total</h2>
+<div class="numero">0</div>
+</div>
+
+<div class="card">
+<h2>Matriculados</h2>
+<div class="numero">0</div>
+</div>
+
+<div class="card">
+<h2>Pendentes</h2>
+<div class="numero">0</div>
+</div>
+
+<div class="card">
+<h2>Cancelados</h2>
+<div class="numero">0</div>
+</div>
+
+</div>
+
+<div class="tabela">
+
+<h2 style="margin-bottom:20px;">Últimos registros</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Nome</th>
+<th>CPF</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td colspan="3">
+
+Nenhum registro encontrado
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
 
 </body>
 </html>
